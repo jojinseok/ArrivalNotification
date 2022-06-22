@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id = "@+id/alarm"
+        android:enabled="true"
+        android:icon="@drawable/alarm"
+        android:title="알람 설정\n"
+        app:showAsAction="always"/>
+    <item
+        android:id= "@+id/change"
+        app:showAsAction="always"
+        android:enabled="true"
+        android:icon="@drawable/change"
+        android:title="편의시설 설정" >
+    </item>
+    <item
+        android:id = "@+id/weather"
+        android:enabled="true"
+        android:icon="@drawable/weather"
+        android:title ="날씨"
+        app:showAsAction="always">
+    </item>
+    <item
+        android:id = "@+id/star"
+        android:enabled="true"
+        android:icon="@drawable/star"
+        android:title ="즐겨찾기"
+        app:showAsAction="always">
+    </item>
+
+</menu>
