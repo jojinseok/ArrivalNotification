@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -52,7 +53,8 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     ArrayAdapter<String> adapter;
     ArrayList<String> listItem;
     ArrayList<String> listItemSave;
-
+    double mylongitude;
+    double mylatitude;
     // - 전역변수 설정
     int num = -1;
     String strData;
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     Context mContext1;
     TMapAddressInfo ti;
     public static String city = " ";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,6 +190,13 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                 tMapCircle.setAreaColor(Color.GRAY);
                 tMapCircle.setAreaAlpha(100);
                 tmapview.addTMapCircle("circle1", tMapCircle);
+                try {
+                     if(1>distanceKm(tmapview,endPoint.getLatitude(), endPoint.getLongitude())) {
+                         Log.d("목표 접근", "" + endPoint.getLatitude() + "," + endPoint.getLongitude());
+                    }
+                } catch (Exception e) {
+                e.printStackTrace();
+                }
                 //markerItem1.setIcon(check);
             }
         });
@@ -224,7 +234,11 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
         listSave();
     }
 
-    private static double distanceKm(double lat1, double lon1, double lat2, double lon2) {
+    private static double distanceKm(TMapView mapView, double lat2, double lon2) {
+
+        TMapPoint tpoint = mapView.getCenterPoint();
+        double lat1 = tpoint.getLatitude();
+        double lon1 = tpoint.getLongitude();
         double theta = lon1 - lon2;
         double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
 
@@ -303,12 +317,14 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     public void onLocationChange(Location location) {
         if (location != null) {
             TMapPoint tMapPointMy = tMapGPS.getLocation();
-            double latitude = tMapPointMy.getLatitude();
-            double longitude = tMapPointMy.getLongitude();
-            tmapview.setLocationPoint(longitude, latitude); // 현재위치로 표시될 좌표의 위도, 경도를 설정
+            mylatitude = tMapPointMy.getLatitude();
+            mylongitude = tMapPointMy.getLongitude();
+            tmapview.setLocationPoint(mylongitude, mylatitude); // 현재위치로 표시될 좌표의 위도, 경도를 설정
             tmapview.setIconVisibility(true);
-            tmapview.setCenterPoint(longitude, latitude, true); // 현재 위치로 이동
+            tmapview.setCenterPoint(mylongitude, mylatitude, true); // 현재 위치로 이동
             startPoint = tMapPointMy;
+            Log.d("현재위치1", "" + tMapPointMy.getLatitude() + "," + tMapPointMy.getLongitude());
+
         }
     }
 
