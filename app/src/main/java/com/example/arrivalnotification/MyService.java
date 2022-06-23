@@ -23,6 +23,7 @@ public class MyService extends Service {
             return MyService.this;
         }
     }
+
     public MyService() {
     }
 
@@ -31,11 +32,11 @@ public class MyService extends Service {
         // TODO: Return the communication channel to the service.
         return mbinder;
     }
+
     public int getCount(){
         return mCount;
     }
 
-    // 여기서 값 비교
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if("startForeground".equals((intent.getAction()))){
@@ -69,7 +70,7 @@ public class MyService extends Service {
         builder.setContentText("도착알림이 실행중");
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,notificationIntent,0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,notificationIntent,PendingIntent.FLAG_IMMUTABLE);
         builder.setContentIntent(pendingIntent);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
