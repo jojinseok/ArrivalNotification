@@ -12,7 +12,7 @@
         android:id= "@+id/change"
         app:showAsAction="always"
         android:enabled="true"
-        android:icon="@drawable/change"
+        android:icon="@drawable/convenience"
         android:title="편의시설 설정" >
     </item>
     <item

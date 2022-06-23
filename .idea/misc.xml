@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Jinseok/AndroidStudioProjects/ArrivalNotification/app/src/main/res/drawable/change.xml" value="0.2985" />
+        <entry key="..\:/Users/Jinseok/AndroidStudioProjects/ArrivalNotification/app/src/main/res/drawable/convenience.xml" value="0.349" />
         <entry key="..\:/Users/Jinseok/AndroidStudioProjects/ArrivalNotification/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Jinseok/AndroidStudioProjects/ArrivalNotification/app/src/main/res/layout/bubble_popup.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Jinseok/AndroidStudioProjects/ArrivalNotification/app/src/main/res/layout/culture_find.xml" value="0.16" />

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    >
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="377dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+
+            <Button
+                android:id="@+id/starButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="즐겨찾기 등록" />
+
+            <TextView
+                android:id="@+id/nameData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:ems="10"
+                android:layout_marginBottom="5dp"
+                android:text="등록된 정보가 없습니다"
+                 android:textStyle="bold"
+                android:textSize="20sp" />
+
+
+            <TextView
+                android:id="@+id/addressData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginEnd="10dp"
+                android:ems="10"
+                android:text="등록된 정보가 없습니다"
+                android:textSize="20sp" />
+
+
+
+            <TextView
+                android:id="@+id/poi"
+                android:layout_width="match_parent"
+                android:layout_height="23dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="15dp"
+                android:text="주변 문화시설"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ListView
+                android:id="@+id/markerListView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:nestedScrollingEnabled="true"
+                android:scrollbarFadeDuration = "0"
+                android:scrollbarAlwaysDrawVerticalTrack = "true"
+                android:scrollbarSize="10dp"
+                android:scrollbarThumbVertical="@color/purple_200"
+                />
+
+
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </TableLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

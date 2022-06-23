@@ -6,7 +6,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -19,13 +21,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -34,19 +33,12 @@ import com.skt.Tmap.TMapCircle;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapMarkerItem;
-import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPoint;
-import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
 import com.skt.Tmap.address_info.TMapAddressInfo;
 import com.skt.Tmap.poi_item.TMapPOIItem;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 public class MainActivity extends AppCompatActivity implements TMapGpsManager.onLocationChangedCallback {
 
@@ -57,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     double mylongitude;
     double mylatitude;
     // - 전역변수 설정
+    private long backKeyPressedTime = 0;
+    private Toast toast;
     int num = -1;
     String strData;
     ArrayList<String> locationData = new ArrayList<>();
@@ -72,9 +66,10 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     Context mContext1;
     TMapAddressInfo ti;
     public static String city = " ";
-    public static int circle=1000;
-
-
+    public static int near =1;
+    public static TMapPoint state;
+    public static double stateLon;
+    public static double stateLan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +83,9 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                 Intent intent;
                 switch (item.getItemId()) {
                     case R.id.alarm:
-
+                        intent=new Intent(getApplicationContext(),Marker_data.class);
+                        startActivity(intent);
+                        return true;
                     case R.id.change:
 
                     case R.id.weather:
@@ -133,7 +130,22 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
         tmapview.setSKTMapApiKey("l7xx68283586cc574df29d04f4e27d6eaad4"); //이부분은 아까 발급 받은 T-Map API를 입력하면 된다.
         linearLayoutTmap.addView(tmapview);
 
-
+        // - 마커 우측 그림 클릭 이벤트
+        tmapview.setOnCalloutRightButtonClickListener(new TMapView.OnCalloutRightButtonClickCallback() {
+            @Override
+            public void onCalloutRightButton(TMapMarkerItem tMapMarkerItem) {
+                String id = tMapMarkerItem.getID();
+                Bitmap bitmap_green = BitmapFactory.decodeResource(getResources(), R.drawable.markerline_green);
+                tMapMarkerItem.setIcon(bitmap_green);
+                Intent intent=new Intent(getApplicationContext(),Marker_data.class);
+                intent.putExtra("주", tMapMarkerItem.getCalloutTitle());
+                intent.putExtra("서브", tMapMarkerItem.getCalloutSubTitle());
+                state=tMapMarkerItem.getTMapPoint();
+                stateLan=state.getLatitude();
+                stateLon=state.getLongitude();
+                startActivity(intent);
+            }
+        });
 
         // - 리스트 데이터를 넣을 준비
         listItem = new ArrayList<String>();
@@ -187,11 +199,10 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
             @Override
             public void onClick(View view) {
                 try {
-
                     Bitmap check = BitmapFactory.decodeResource(getResources(), R.drawable.check);
                     TMapCircle tMapCircle = new TMapCircle();
                     tMapCircle.setCenterPoint(endPoint);
-                    tMapCircle.setRadius(circle);
+                    tMapCircle.setRadius(near*1000);
                     tMapCircle.setCircleWidth(2);
                     tMapCircle.setLineColor(Color.BLUE);
                     tMapCircle.setAreaColor(Color.GRAY);
@@ -206,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                         l2.setLongitude(endPoint.getLongitude());
                         float distance1 = l1.distanceTo(l2) / 1000;
                         Log.d("거리", "" + distance1);
-                        if (1 > distanceKm(tmapview, endPoint.getLatitude(), endPoint.getLongitude())) {
+                        if (near > distanceKm(tmapview, endPoint.getLatitude(), endPoint.getLongitude())) {
                             Log.d("목표 접근", "" + endPoint.getLatitude() + "," + endPoint.getLongitude());
                         }
                     } catch (Exception e) {
@@ -223,10 +234,9 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
 
         // - 리스트 아이템 동작
         Bitmap bitmap_orange = BitmapFactory.decodeResource(getResources(), R.drawable.markerline_orange);
-        Bitmap bitmap_green = BitmapFactory.decodeResource(getResources(), R.drawable.markerline_green);
      /*   listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onIte   mClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String data = (String) adapterView.getAdapter().getItem(i);
                 markerItem1 = tmapview.getMarkerItemFromID("marker" + i);
                 endPoint = markerItem1.getTMapPoint();
@@ -322,6 +332,8 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
         markerItem1.setIcon(bitmap);
         markerItem1.setCalloutTitle(item.getPOIName().toString());
         markerItem1.setCalloutSubTitle(item.getPOIAddress().replace("null", ""));
+        Bitmap bitmapClick = BitmapFactory.decodeResource(getResources(), R.drawable.check);
+        markerItem1.setCalloutRightButtonImage(bitmapClick);
         tmapview.addMarkerItem("marker" + i, markerItem1);
         listItem.add(item.getPOIName().toString());
         if (i == 0) {
@@ -335,7 +347,6 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     @Override
     public void onLocationChange(Location location) {
         if (location != null) {
-            Thread change=new Thread(() -> {
                 TMapPoint tMapPointMy = tMapGPS.getLocation();
                 mylatitude = tMapPointMy.getLatitude();
                 mylongitude = tMapPointMy.getLongitude();
@@ -356,17 +367,46 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                     Log.d("거리", "" + distance1);
                     //Log.d("목표 위치", "" + endPoint.getLatitude() + "," + endPoint.getLongitude());
                     // Toast.makeText(MainActivity.this,"위치"+tmapview.getLatitude()+"and"+tmapview.getLongitude(),Toast.LENGTH_SHORT).show();
-                    if (1 > distanceKm(tmapview, endPoint.getLatitude(), endPoint.getLongitude())) {
+                    if (near > distanceKm(tmapview, endPoint.getLatitude(), endPoint.getLongitude())) {
                         Log.d("목표 접근", "" + endPoint.getLatitude() + "," + endPoint.getLongitude());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            });
-            change.start();
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2500) {
+            backKeyPressedTime = System.currentTimeMillis();
+            toast = Toast.makeText(this, "뒤로 가기를 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2500) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("정말로 종료하시겠습니까?");
+            builder.setTitle("종료 알림창")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int i) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int i) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.setTitle("종료 알림창");
+            alert.show();
+        }
+    }
 
     // - 검색 동작 스레드
     class ThreadFind extends Thread {
