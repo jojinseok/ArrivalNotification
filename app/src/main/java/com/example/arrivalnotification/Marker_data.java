@@ -28,16 +28,51 @@ public class Marker_data extends AppCompatActivity {
         TextView nameData = (TextView) findViewById(R.id.nameData);
         TextView addressData = (TextView) findViewById(R.id.addressData);
         TextView poi = (TextView) findViewById(R.id.poi);
+        TextView customAlarm = (TextView) findViewById(R.id.customAlarm_data);
+        TextView many_data = (TextView) findViewById(R.id.many_data);
         ListView listView = (ListView) findViewById(R.id.markerListView);
         Button write_button = (Button) findViewById(R.id.starButton);
-     
+        ArrayAdapter<String> adapter;
+        Intent secondIntent = getIntent();
         try{
-            Intent secondIntent = getIntent();
             title = secondIntent.getStringExtra("주");
             subtitle = secondIntent.getStringExtra("서브");
             nameData.setText(title);
             addressData.setText(subtitle);
         }catch (Exception e){
+            e.printStackTrace();
+        }
+        try{
+            String custom = secondIntent.getStringExtra("설정");
+            customAlarm.append("목적지 주변 "+custom+"KM 도착 시 알림");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try{
+            String total = secondIntent.getStringExtra("개수");
+            poi.append("  "+total);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try{
+            String sort = secondIntent.getStringExtra("상위");
+            many_data.append("  "+sort);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try {
+            ArrayList<String> ar = secondIntent.getStringArrayListExtra("편의시설");
+            ArrayList<String> inputData = new ArrayList<String>();
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, inputData);
+            listView.setAdapter(adapter);
+            for(int i = 0;i < ar.size();i++) {
+                inputData.add(ar.get(i));
+                adapter.notifyDataSetChanged();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

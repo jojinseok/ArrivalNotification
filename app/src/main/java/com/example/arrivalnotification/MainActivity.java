@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     TMapMarkerItem markerItem1 = new TMapMarkerItem();
     Context mContext1;
     TMapAddressInfo ti;
+    String sort;
     int vus = 0, dud = 0, dh = 0, zk = 0, eh = 0, sh = 0, ekd = 0, ak = 0,dms = 0, pc = 0, qhf = 0, tlr = 0, ans = 0, qor= 0, ty= 0,rhd= 0, finalTotal=0;
     public static String city = " ";
     public static int near =1;
@@ -154,9 +155,25 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                 Intent intent=new Intent(getApplicationContext(),Marker_data.class);
                 intent.putExtra("주", tMapMarkerItem.getCalloutTitle());
                 intent.putExtra("서브", tMapMarkerItem.getCalloutSubTitle());
+                ArrayList<TMapPOIItem> poiItem2;
+                String category = result;
+                poiItem2 = getAroundCF(tMapMarkerItem.getTMapPoint(), "편의점");//주변 편의시설 리스트
+                intent.putExtra("편의시설", poiString);
+                intent.putExtra("개수", "(총 "+finalTotal+"개)");
+                intent.putExtra("상위",sort);
+                try {
+                    intent.putExtra("설정", Integer.toString(near));
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 state=tMapMarkerItem.getTMapPoint();
                 stateLan=state.getLatitude();
                 stateLon=state.getLongitude();
+                try {
+                    Thread.sleep(1500);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 startActivity(intent);
             }
         });
@@ -705,6 +722,111 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                     }else break;  //자기보다 작은 데이터를 만나면 그 위치에서 멈춤
 
                 }
+            }
+            if(arr[15]==0){
+                sort="문화시설이 없습니다";
+            }
+            else if(arr[15]==dud) {
+                sort="영화관";
+                dud=0;
+            }else if(arr[15]==vus) {
+                sort="편의점";
+                vus=0;
+            }else if(arr[15]==dh) {
+                sort="오락실";
+                dh=0;
+            }else if(arr[15]==zk) {
+                sort="카페";
+                zk=0;
+            }else if(arr[15]==eh) {
+                sort="도서관";
+                eh=0;
+            }else if(arr[15]==sh) {
+                sort="노래방";
+                sh=0;
+            }else if(arr[15]==ekd) {
+                sort="당구장";
+                ekd=0;
+            }else if(arr[15]==ak) {
+                sort="마트";
+                ak=0;
+            }else if(arr[15]==dms) {
+                sort="은행";
+                dms=0;
+            }else if(arr[15]==pc) {
+                sort="피시방";
+                pc=0;
+            }else if(arr[15]==qhf) {
+                sort="볼링장";
+                qhf=0;
+            }else if(arr[15]==tlr) {
+                sort="식당";
+                tlr=0;
+            }else if(arr[15]==ans) {
+                sort="문화시설";
+                ans=0;
+            }else if(arr[15]==qor) {
+                sort="백화점";
+                qor=0;
+            }else if(arr[15]==ty) {
+                sort="쇼핑센터";
+                ty=0;
+            }else if(arr[15]==rhd) {
+                sort="공연장";
+                rhd=0;
+            }
+
+            if(arr[14]==0){
+                sort+=" ";
+            }
+            else if(arr[14]==dud) {
+                sort+="  영화관";
+                dud=0;
+            }else if(arr[14]==vus) {
+                sort+="  편의점";
+                vus=0;
+            }else if(arr[14]==dh) {
+                sort+="  오락실";
+                dh=0;
+            }else if(arr[14]==zk) {
+                sort+="  카페";
+                zk=0;
+            }else if(arr[14]==eh) {
+                sort+="  도서관";
+                eh=0;
+            }else if(arr[14]==sh) {
+                sort+="  노래방";
+                sh=0;
+            }else if(arr[14]==ekd) {
+                sort+="  당구장";
+                ekd=0;
+            }else if(arr[14]==ak) {
+                sort+=" 마트";
+                ak=0;
+            }else if(arr[14]==dms) {
+                sort+=" 은행";
+                dms=0;
+            }else if(arr[14]==pc) {
+                sort+=" 피시방";
+                pc=0;
+            }else if(arr[14]==qhf) {
+                sort+=" 볼링장";
+                qhf=0;
+            }else if(arr[14]==tlr) {
+                sort+=" 식당";
+                tlr=0;
+            }else if(arr[14]==ans) {
+                sort+=" 문화시설";
+                ans=0;
+            }else if(arr[14]==qor) {
+                sort+=" 백화점";
+                qor=0;
+            }else if(arr[14]==ty) {
+                sort+=" 쇼핑센터";
+                ty=0;
+            }else if(arr[14]==rhd) {
+                sort+=" 공연장";
+                rhd=0;
             }
             finalTotal=total;
         });

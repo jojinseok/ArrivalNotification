@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -34,6 +35,8 @@ public class AlarmService extends Service {
         if (!this.isRunning && state.equals("on")) {
             // 알람음 재생 OFF, 알람음 시작 상태
             this.mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
+            Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(5000);
             this.mediaPlayer.start();
 
             this.isRunning = true;
