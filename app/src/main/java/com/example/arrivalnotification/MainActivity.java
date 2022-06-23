@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -71,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     Context mContext1;
     TMapAddressInfo ti;
     public static String city = " ";
+    public static int circle=1000;
+
 
 
     @Override
@@ -103,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
         Button findLocationButton = (Button) findViewById(R.id.button);
         Button endPointButton = (Button) findViewById(R.id.button2);
         LinearLayout linearLayoutTmap = (LinearLayout) findViewById(R.id.linearLayoutTmap);
-        ListView listView = (ListView) findViewById(R.id.listview);
-        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+      //  ListView listView = (ListView) findViewById(R.id.listview);
+       // ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
 
 
         // - 위치 권한 요청
@@ -136,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
         listItem = new ArrayList<String>();
         listItemSave = new ArrayList<String>();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItemSave);
-        listView.setAdapter(adapter);
+        //listView.setAdapter(adapter);
 
 
         // - 키보드 표시제어
@@ -148,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
             @Override
             public void onClick(View view) {
                 tmapview.removeAllMarkerItem();
+                tmapview.removeAllTMapCircle();
                 if (findLocation.getText().toString().equals("")) {
                 } else if (threadfind.getState() == Thread.State.TERMINATED) {
                     System.out.println("스레드 상태 = " + threadfind.getState());
@@ -166,38 +170,52 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                 System.out.println(listItem);
                 listItemSave.clear();
                 listSave();
-                scrollView.setVisibility(View.VISIBLE);
+                //scrollView.setVisibility(View.VISIBLE);
                 imm.hideSoftInputFromWindow(findLocationButton.getWindowToken(), 0);
             }
         });
 
-        findLocation.setOnClickListener(new View.OnClickListener() {
+      /*  findLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 scrollView.setVisibility(View.INVISIBLE);
             }
-        });
+        });*/
 
+        // - 도착지로 버튼 클릭 이벤트
         endPointButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bitmap check = BitmapFactory.decodeResource(getResources(), R.drawable.check);
-                TMapCircle tMapCircle = new TMapCircle();
-                tMapCircle.setCenterPoint( endPoint );
-                tMapCircle.setRadius(300);
-                tMapCircle.setCircleWidth(2);
-                tMapCircle.setLineColor(Color.BLUE);
-                tMapCircle.setAreaColor(Color.GRAY);
-                tMapCircle.setAreaAlpha(100);
-                tmapview.addTMapCircle("circle1", tMapCircle);
                 try {
-                     if(1>distanceKm(tmapview,endPoint.getLatitude(), endPoint.getLongitude())) {
-                         Log.d("목표 접근", "" + endPoint.getLatitude() + "," + endPoint.getLongitude());
+
+                    Bitmap check = BitmapFactory.decodeResource(getResources(), R.drawable.check);
+                    TMapCircle tMapCircle = new TMapCircle();
+                    tMapCircle.setCenterPoint(endPoint);
+                    tMapCircle.setRadius(circle);
+                    tMapCircle.setCircleWidth(2);
+                    tMapCircle.setLineColor(Color.BLUE);
+                    tMapCircle.setAreaColor(Color.GRAY);
+                    tMapCircle.setAreaAlpha(100);
+                    tmapview.addTMapCircle("circle1", tMapCircle);
+                    try {
+                        Location l1 = new Location("");
+                        l1.setLatitude(tmapview.getLatitude());
+                        l1.setLongitude(tmapview.getLongitude());
+                        Location l2 = new Location("");
+                        l2.setLatitude(endPoint.getLatitude());
+                        l2.setLongitude(endPoint.getLongitude());
+                        float distance1 = l1.distanceTo(l2) / 1000;
+                        Log.d("거리", "" + distance1);
+                        if (1 > distanceKm(tmapview, endPoint.getLatitude(), endPoint.getLongitude())) {
+                            Log.d("목표 접근", "" + endPoint.getLatitude() + "," + endPoint.getLongitude());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                e.printStackTrace();
+                    //markerItem1.setIcon(check);
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
-                //markerItem1.setIcon(check);
             }
         });
 
@@ -206,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
         // - 리스트 아이템 동작
         Bitmap bitmap_orange = BitmapFactory.decodeResource(getResources(), R.drawable.markerline_orange);
         Bitmap bitmap_green = BitmapFactory.decodeResource(getResources(), R.drawable.markerline_green);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+     /*   listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String data = (String) adapterView.getAdapter().getItem(i);
@@ -221,7 +239,8 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                 num = i;
 
             }
-        });
+        });*/
+
 
 
 
@@ -316,15 +335,35 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     @Override
     public void onLocationChange(Location location) {
         if (location != null) {
-            TMapPoint tMapPointMy = tMapGPS.getLocation();
-            mylatitude = tMapPointMy.getLatitude();
-            mylongitude = tMapPointMy.getLongitude();
-            tmapview.setLocationPoint(mylongitude, mylatitude); // 현재위치로 표시될 좌표의 위도, 경도를 설정
-            tmapview.setIconVisibility(true);
-            tmapview.setCenterPoint(mylongitude, mylatitude, true); // 현재 위치로 이동
-            startPoint = tMapPointMy;
-            Log.d("현재위치1", "" + tMapPointMy.getLatitude() + "," + tMapPointMy.getLongitude());
+            Thread change=new Thread(() -> {
+                TMapPoint tMapPointMy = tMapGPS.getLocation();
+                mylatitude = tMapPointMy.getLatitude();
+                mylongitude = tMapPointMy.getLongitude();
+                tmapview.setLocationPoint(mylongitude, mylatitude); // 현재위치로 표시될 좌표의 위도, 경도를 설정
+                tmapview.setIconVisibility(true);
+                tmapview.setCenterPoint(mylongitude, mylatitude, true); // 현재 위치로 이동
+                startPoint = tMapPointMy;
+                Log.d("현재위치", "" + tMapPointMy.getLatitude() + "," + tMapPointMy.getLongitude());
 
+                try {
+                    Location l1 = new Location("");
+                    l1.setLatitude(tmapview.getLatitude());
+                    l1.setLongitude(tmapview.getLongitude());
+                    Location l2 = new Location("");
+                    l2.setLatitude(endPoint.getLatitude());
+                    l2.setLongitude(endPoint.getLongitude());
+                    float distance1 = l1.distanceTo(l2) / 1000;
+                    Log.d("거리", "" + distance1);
+                    //Log.d("목표 위치", "" + endPoint.getLatitude() + "," + endPoint.getLongitude());
+                    // Toast.makeText(MainActivity.this,"위치"+tmapview.getLatitude()+"and"+tmapview.getLongitude(),Toast.LENGTH_SHORT).show();
+                    if (1 > distanceKm(tmapview, endPoint.getLatitude(), endPoint.getLongitude())) {
+                        Log.d("목표 접근", "" + endPoint.getLatitude() + "," + endPoint.getLongitude());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            change.start();
         }
     }
 
