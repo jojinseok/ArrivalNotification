@@ -46,6 +46,7 @@ public class Marker_data extends AppCompatActivity {
             public void onClick(View view) {
             // MainActivity.stateLan, MainActivity.stateLon 즐겨찾기에 사용될 위도 경도 값, MainActivity.near = 주변 도착 인식 거리,title = 검색된 이름, subtitle = 주소
             // 위 값들과 알람 설정 값 Firebase에 넣으면 될것같습니다
+                Toast.makeText(Marker_data.this,"위도 : "+MainActivity.stateLan+", 경도 : "+MainActivity.stateLon+", 주변 인식 거리 : "+MainActivity.near+"이름 : "+title+", 주소 : "+subtitle,Toast.LENGTH_SHORT).show();
 
             }
         });

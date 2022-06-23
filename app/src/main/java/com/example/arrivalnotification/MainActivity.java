@@ -37,7 +37,7 @@ import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
 import com.skt.Tmap.address_info.TMapAddressInfo;
 import com.skt.Tmap.poi_item.TMapPOIItem;
-
+import static com.example.arrivalnotification.culture_find.result;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements TMapGpsManager.onLocationChangedCallback {
@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     String strData;
     ArrayList<String> locationData = new ArrayList<>();
     ArrayList<TMapPOIItem> poiItem;
+    ArrayList<TMapPOIItem> poiItem1 = new ArrayList<>();
+    ArrayList<String> poiString = new ArrayList<>();
     ArrayList<TMapPoint> par;
     TMapData tmapdata;
     TMapView tmapview;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     TMapMarkerItem markerItem1 = new TMapMarkerItem();
     Context mContext1;
     TMapAddressInfo ti;
+    int vus = 0, dud = 0, dh = 0, zk = 0, eh = 0, sh = 0, ekd = 0, ak = 0,dms = 0, pc = 0, qhf = 0, tlr = 0, ans = 0, qor= 0, ty= 0,rhd= 0, finalTotal=0;
     public static String city = " ";
     public static int near =1;
     public static TMapPoint state;
@@ -83,11 +86,11 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                 Intent intent;
                 switch (item.getItemId()) {
                     case R.id.alarm:
-                        intent=new Intent(getApplicationContext(),Marker_data.class);
+
+                    case R.id.change:
+                        intent=new Intent(getApplicationContext(),culture_find.class);
                         startActivity(intent);
                         return true;
-                    case R.id.change:
-
                     case R.id.weather:
 
                     case R.id.star:
@@ -219,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                         Log.d("거리", "" + distance1);
                         if (near > distanceKm(tmapview, endPoint.getLatitude(), endPoint.getLongitude())) {
                             Log.d("목표 접근", "" + endPoint.getLatitude() + "," + endPoint.getLongitude());
+                            Toast.makeText(MainActivity.this,"주변에 도착했습니다",Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -332,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
         markerItem1.setIcon(bitmap);
         markerItem1.setCalloutTitle(item.getPOIName().toString());
         markerItem1.setCalloutSubTitle(item.getPOIAddress().replace("null", ""));
-        Bitmap bitmapClick = BitmapFactory.decodeResource(getResources(), R.drawable.check);
+        Bitmap bitmapClick = BitmapFactory.decodeResource(getResources(), R.drawable.plus);
         markerItem1.setCalloutRightButtonImage(bitmapClick);
         tmapview.addMarkerItem("marker" + i, markerItem1);
         listItem.add(item.getPOIName().toString());
@@ -369,6 +373,8 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                     // Toast.makeText(MainActivity.this,"위치"+tmapview.getLatitude()+"and"+tmapview.getLongitude(),Toast.LENGTH_SHORT).show();
                     if (near > distanceKm(tmapview, endPoint.getLatitude(), endPoint.getLongitude())) {
                         Log.d("목표 접근", "" + endPoint.getLatitude() + "," + endPoint.getLongitude());
+                        Toast.makeText(MainActivity.this,"주변에 도착했습니다",Toast.LENGTH_SHORT).show();
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -407,6 +413,300 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
             alert.show();
         }
     }
+
+    public ArrayList  getAroundCF(TMapPoint tpoint1, String category) {
+
+        TMapData tmapdata = new TMapData();
+        ArrayList<TMapPOIItem> poiItem2 = new ArrayList<>();
+        poiItem = new ArrayList<>();
+        poiString = new ArrayList<>();
+        String result = culture_find.result;
+
+        Thread thread = new Thread(() -> {
+            if(!result.isEmpty()) {
+                try {
+                    if (result.contains("영화관")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "영화관", 1, 60);
+                        dud = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                dud++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("편의점")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "편의점", 1, 60);
+                        vus = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                vus++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("오락실")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "오락실", 1, 60);
+                        dh = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                dh++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("카페")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "카페", 1, 60);
+                        zk = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                zk++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("도서관")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "도서관", 1, 60);
+                        eh = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                eh++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("노래방")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "노래방", 1, 60);
+                        sh = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                sh++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("당구장")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "당구장", 1, 60);
+                        ekd = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                ekd++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("마트")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "마트", 1, 60);
+                        ak = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                ak++;
+                            }
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("은행")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "은행", 1, 60);
+                        dms = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                dms++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("피시방")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "피시방", 1, 60);
+                        pc = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                pc++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("볼링장")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "볼링장", 1, 60);
+                        qhf = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                qhf++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("식당")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "식당", 1, 60);
+                        tlr = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                tlr++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("문화시설")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "문화시설", 1, 60);
+                        ans = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                ans++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("백화점")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "백화점", 1, 60);
+                        qor = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                qor++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("쇼핑센터")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "쇼핑센터", 1, 60);
+                        ty = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                ty++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (result.contains("공연장")) {
+                        poiItem = tmapdata.findAroundNamePOI(tpoint1, "공연장", 1, 60);
+                        rhd = 0;
+                        if (null != poiItem) {
+                            for (int i = 0; i < poiItem.size(); i++) {
+                                TMapPOIItem item = poiItem.get(i);
+                                poiString.add(item.getPOIName());
+                                rhd++;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    poiItem = tmapdata.findAroundNamePOI(tpoint1, "", 1, 60);
+                    if (null != poiItem) {
+                        for (int i = 0; i < poiItem.size(); i++) {
+                            TMapPOIItem item = poiItem.get(i);
+                            poiString.add(item.getPOIName());
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            int []arr = {dud,vus,dh,zk,eh,sh,ekd,ak,dms,pc,qhf,tlr,ans,qor,ty,rhd};
+
+            int total=dud+vus+dh+zk+eh+sh+ekd+ak+dms+pc+qhf+tlr+ans+qor+ty+rhd;
+
+            for(int i=1; i < arr.length; i++){
+                for(int j=i ; j >= 1; j--){
+
+                    if(arr[j] < arr[j-1]){  //한 칸씩 왼쪽으로 이동
+                        int tmp = arr[j];
+                        arr[j] = arr[j-1];
+                        arr[j-1] = tmp;
+                    }else break;  //자기보다 작은 데이터를 만나면 그 위치에서 멈춤
+
+                }
+            }
+            finalTotal=total;
+        });
+        thread.start();
+        try {
+            thread.sleep(1000);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return poiItem;
+    }
+
+
+
 
     // - 검색 동작 스레드
     class ThreadFind extends Thread {
