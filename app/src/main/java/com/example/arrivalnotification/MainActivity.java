@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     private Toast toast;
     int num = -1;
     String strData;
+    public static String spinnerData="1";
     ArrayList<String> locationData = new ArrayList<>();
     ArrayList<TMapPOIItem> poiItem;
     ArrayList<TMapPOIItem> poiItem1 = new ArrayList<>();
@@ -149,6 +150,17 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
         tmapview.setOnCalloutRightButtonClickListener(new TMapView.OnCalloutRightButtonClickCallback() {
             @Override
             public void onCalloutRightButton(TMapMarkerItem tMapMarkerItem) {
+                if(spinnerData.contains("1")){
+                    near=1;
+                }else if(spinnerData.contains("2")){
+                    near=2;
+                }else if(spinnerData.contains("3")){
+                    near=3;
+                }else if(spinnerData.contains("4")){
+                    near=4;
+                }else{
+                    near=5;
+                }
                 String id = tMapMarkerItem.getID();
                 Bitmap bitmap_green = BitmapFactory.decodeResource(getResources(), R.drawable.markerline_green);
                 tMapMarkerItem.setIcon(bitmap_green);
@@ -230,6 +242,17 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
             @Override
             public void onClick(View view) {
                 try {
+                    if(spinnerData.contains("1")){
+                        near=1;
+                    }else if(spinnerData.contains("2")){
+                        near=2;
+                    }else if(spinnerData.contains("3")){
+                        near=3;
+                    }else if(spinnerData.contains("4")){
+                        near=4;
+                    }else{
+                        near=5;
+                    }
                     Bitmap check = BitmapFactory.decodeResource(getResources(), R.drawable.check);
                     TMapCircle tMapCircle = new TMapCircle();
                     tMapCircle.setCenterPoint(endPoint);
@@ -398,6 +421,17 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                     l2.setLongitude(endPoint.getLongitude());
                     float distance1 = l1.distanceTo(l2) / 1000;
                     Log.d("거리", "" + distance1);
+                    if(spinnerData.contains("1")){
+                        near=1;
+                    }else if(spinnerData.contains("2")){
+                        near=2;
+                    }else if(spinnerData.contains("3")){
+                        near=3;
+                    }else if(spinnerData.contains("4")){
+                        near=4;
+                    }else{
+                        near=5;
+                    }
                     //Log.d("목표 위치", "" + endPoint.getLatitude() + "," + endPoint.getLongitude());
                     // Toast.makeText(MainActivity.this,"위치"+tmapview.getLatitude()+"and"+tmapview.getLongitude(),Toast.LENGTH_SHORT).show();
                     if (near > distanceKm(tmapview, endPoint.getLatitude(), endPoint.getLongitude())) {

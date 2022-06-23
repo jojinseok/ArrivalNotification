@@ -7,12 +7,18 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TimePicker
-        android:id="@+id/timePicker"
+    <TextView
+        android:id="@+id/textView"
+        android:textSize="50dp"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:text="알람 설정" />
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -21,16 +27,11 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/btnStart"
+            android:id="@+id/setbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="START" />
+            android:text="설정 완료" />
 
-        <Button
-            android:id="@+id/btnStop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="STOP" />
 
     </LinearLayout>
 
