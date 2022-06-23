@@ -6,7 +6,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,7 +40,11 @@ import com.skt.Tmap.TMapView;
 import com.skt.Tmap.address_info.TMapAddressInfo;
 import com.skt.Tmap.poi_item.TMapPOIItem;
 import static com.example.arrivalnotification.culture_find.result;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements TMapGpsManager.onLocationChangedCallback {
 
@@ -73,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     public static TMapPoint state;
     public static double stateLon;
     public static double stateLan;
+    private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +94,9 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                 Intent intent;
                 switch (item.getItemId()) {
                     case R.id.alarm:
-
+                        intent=new Intent(getApplicationContext(),Alarm.class);
+                        startActivity(intent);
+                        return true;
                     case R.id.change:
                         intent=new Intent(getApplicationContext(),culture_find.class);
                         startActivity(intent);
@@ -100,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
             }
         });
 
+        this.alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         // - xml 관련
         EditText findLocation = (EditText) findViewById(R.id.findLocation);
@@ -223,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                         if (near > distanceKm(tmapview, endPoint.getLatitude(), endPoint.getLongitude())) {
                             Log.d("목표 접근", "" + endPoint.getLatitude() + "," + endPoint.getLongitude());
                             Toast.makeText(MainActivity.this,"주변에 도착했습니다",Toast.LENGTH_SHORT).show();
+                            start1();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -374,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                     if (near > distanceKm(tmapview, endPoint.getLatitude(), endPoint.getLongitude())) {
                         Log.d("목표 접근", "" + endPoint.getLatitude() + "," + endPoint.getLongitude());
                         Toast.makeText(MainActivity.this,"주변에 도착했습니다",Toast.LENGTH_SHORT).show();
-
+                        start1();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -703,6 +715,41 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
             e.printStackTrace();
         }
         return poiItem;
+    }
+
+
+    /* 알람 시작 */
+    private void start1() {
+        // 시간 설정
+        Calendar calendar = Calendar.getInstance();
+
+        // Receiver 설정
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        // state 값이 on 이면 알람시작, off 이면 중지
+        intent.putExtra("state", "on");
+
+        this.pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // 알람 설정
+        this.alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+ }
+
+    /* 알람 중지 */
+    private void stop() {
+        if (this.pendingIntent == null) {
+            return;
+        }
+
+        // 알람 취소
+        this.alarmManager.cancel(this.pendingIntent);
+
+        // 알람 중지 Broadcast
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        intent.putExtra("state","off");
+
+        sendBroadcast(intent);
+
+        this.pendingIntent = null;
     }
 
 
