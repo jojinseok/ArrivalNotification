@@ -26,6 +26,7 @@ public class culture_find extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.culture_find);
 
+
         BottomNavigationView bottom = findViewById(R.id.bottom_menu);
         bottom.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -33,17 +34,19 @@ public class culture_find extends AppCompatActivity {
                 Intent intent;
                 switch (item.getItemId()) {
                     case R.id.alarm:
-
+                        intent=new Intent(getApplicationContext(),Alarm.class);
+                        startActivity(intent);
+                        return true;
                     case R.id.change:
 
-                    case R.id.weather:
 
                     case R.id.star:
-
+                        intent=new Intent(getApplicationContext(),Star.class);
+                        startActivity(intent);
+                        return true;
                 }
                 return false;
             }
-
         });
 
         final CheckBox cb1 = (CheckBox) findViewById(R.id.checkBox1);
@@ -94,8 +97,8 @@ public class culture_find extends AppCompatActivity {
 
               tv.setText("검색카테고리 : " + result.replaceAll(";",", "));
 
-              Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-              startActivity(intent);
+//              Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//              startActivity(intent);
           }
         }
         );

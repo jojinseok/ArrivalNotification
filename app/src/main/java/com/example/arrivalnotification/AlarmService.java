@@ -34,7 +34,7 @@ public class AlarmService extends Service {
 
         if (!this.isRunning && state.equals("on")) {
             // 알람음 재생 OFF, 알람음 시작 상태
-            this.mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
+            this.mediaPlayer = MediaPlayer.create(this, R.raw.alarm1);
             Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
             vibrator.vibrate(5000);
             this.mediaPlayer.start();

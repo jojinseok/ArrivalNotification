@@ -47,6 +47,7 @@
         <activity android:name=".Marker_data"/>
         <activity android:name=".culture_find"/>
         <activity android:name=".Alarm"/>
+        <activity android:name=".Star"/>
     </application>
 
 </manifest>

@@ -14,11 +14,18 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="0dp">
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            app:srcCompat="@drawable/just_logo" />
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="검색할 편의시설을 선택하세요"
+            android:layout_marginBottom="20dp"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TableLayout
@@ -143,12 +150,15 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:id="@+id/editText1"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:hint="여러개 검색시 ; 로 구분"/>
 
         <Button
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:text="선택완료" />
 
         <TextView
@@ -157,6 +167,7 @@
             android:layout_height="wrap_content"
             android:text="선택결과창"
             android:textAppearance="?android:attr/textAppearanceLarge" />
+
 
 
     </LinearLayout>

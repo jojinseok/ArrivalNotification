@@ -16,13 +16,6 @@
         android:title="편의시설 설정" >
     </item>
     <item
-        android:id = "@+id/weather"
-        android:enabled="true"
-        android:icon="@drawable/weather"
-        android:title ="날씨"
-        app:showAsAction="always">
-    </item>
-    <item
         android:id = "@+id/star"
         android:enabled="true"
         android:icon="@drawable/star"

@@ -103,10 +103,11 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                         intent=new Intent(getApplicationContext(),culture_find.class);
                         startActivity(intent);
                         return true;
-                    case R.id.weather:
 
                     case R.id.star:
-
+                        intent=new Intent(getApplicationContext(),Star.class);
+                        startActivity(intent);
+                        return true;
                 }
                 return false;
             }

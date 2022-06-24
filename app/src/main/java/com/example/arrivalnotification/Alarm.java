@@ -3,6 +3,7 @@ package com.example.arrivalnotification;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,7 +11,11 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class Alarm extends AppCompatActivity {
 
@@ -19,6 +24,29 @@ public class Alarm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm);
+
+        BottomNavigationView bottom = findViewById(R.id.bottom_menu);
+        bottom.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Intent intent;
+                switch (item.getItemId()) {
+                    case R.id.alarm:
+
+                    case R.id.change:
+                        intent=new Intent(getApplicationContext(),culture_find.class);
+                        startActivity(intent);
+                        return true;
+
+                    case R.id.star:
+                        intent=new Intent(getApplicationContext(),Star.class);
+                        startActivity(intent);
+                        return true;
+                }
+                return false;
+            }
+        });
+
         Button b = (Button) findViewById(R.id.setbtn);
         Spinner spinner = findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -43,8 +71,8 @@ public class Alarm extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
                                  @Override
                                  public void onClick(View v) {
-                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                     startActivity(intent);
+//                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                                     startActivity(intent);
                                  }
                              }
         );

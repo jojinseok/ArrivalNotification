@@ -62,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             Toast.makeText(RegisterActivity.this, "회원가입에 성공하셨습니다", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(RegisterActivity.this, "회원가엡에 실패하셨습니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "아이디를 이메일 형식으로 입력해주세요.\n비밀번호를 6자리 이상 입력해주세요.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
