@@ -27,8 +27,17 @@ B02_BMW / 프로젝트명 : 도착알림이
 동작 방식(프로세스) :
 회원가입 -> 로그인 -> 목적지 검색 -> 마커 클릭 후 도착지로 버튼 클릭 -> 주변 도착 시 알람 실행
 
+활용/참고 정보 :
+T맵 API 가이드 : https://tmapapi.sktelecom.com/main.html#android/sample/androidSample.sample1
+T맵 포럼 : https://openapi.sk.com/qnaCommunity/list
+알람 : https://www.youtube.com/watch?v=r5nCjplm7sw
+
 개발/배포 환경 :
 안드로이드 스튜디오/ 안드로이드 apk 파일
 
 테스트 환경 :
 안드로이드 스튜디오 AVD (픽셀2), 갤럭시 S 21
+
+영상 유튜브 링크 : 
+https://www.youtube.com/watch?v=XqmJMsTvBmc
+
