@@ -2,6 +2,7 @@
 B02_BMW / 프로젝트명 : 도착알림이
 
 대표 이미지 : 
+
 ![12311](https://user-images.githubusercontent.com/82083624/175446117-9bfde19c-6a85-4875-97aa-1ab61e55d266.PNG)
 
 팀원 소개 :
