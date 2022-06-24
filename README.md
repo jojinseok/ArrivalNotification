@@ -1,4 +1,5 @@
 팀명 : 
+
 B02_BMW / 프로젝트명 : 도착알림이
 
 대표 이미지 : 
@@ -6,6 +7,7 @@ B02_BMW / 프로젝트명 : 도착알림이
 ![12311](https://user-images.githubusercontent.com/82083624/175446117-9bfde19c-6a85-4875-97aa-1ab61e55d266.PNG)
 
 팀원 소개 :
+
 선문대학교 / 조진석 / 개발자 / 리더 : 알람, 알람설정, 인트로, 지도 기능 구현(마커, 편의시설, 알람, 주변 도착 이벤트, 사용자 위치 실시간 갱신)
 
 경운대학교 / 김경환 / 개발자 / 소통 : UI 구현
@@ -17,6 +19,7 @@ B02_BMW / 프로젝트명 : 도착알림이
 우송대학교 / 안지수 / 디자이너 / 영상제공 : 디자인 및 영상편집
 
 프로젝트 배경/목표 :
+
 2022년 기준 하루에 1000만명의 사람들이 대중교통을 이용합니다.
 이 중 많은 사람들이 버스나 지하철과 같은 대중교통을 이용할때 
 또는, 장거리 이동을 할때 언제 도착할지 몰라 피곤한데도 잠을 자지 못하거나 목적지를
@@ -25,9 +28,11 @@ B02_BMW / 프로젝트명 : 도착알림이
 알람으로 사용자를 깨워주는 앱을 개발하고자 했습니다.
 
 동작 방식(프로세스) :
+
 회원가입 -> 로그인 -> 목적지 검색 -> 마커 클릭 후 도착지로 버튼 클릭 -> 주변 도착 시 알람 실행
 
 활용/참고 정보 :
+
 T맵 API 가이드 : https://tmapapi.sktelecom.com/main.html#android/sample/androidSample.sample1
 
 T맵 포럼 : https://openapi.sk.com/qnaCommunity/list
@@ -35,11 +40,14 @@ T맵 포럼 : https://openapi.sk.com/qnaCommunity/list
 알람 : https://www.youtube.com/watch?v=r5nCjplm7sw
 
 개발/배포 환경 :
+
 안드로이드 스튜디오/ 안드로이드 apk 파일
 
 테스트 환경 :
+
 안드로이드 스튜디오 AVD (픽셀2), 갤럭시 S 21
 
 영상 유튜브 링크 : 
+
 https://www.youtube.com/watch?v=XqmJMsTvBmc
 
