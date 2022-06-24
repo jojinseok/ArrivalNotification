@@ -29,7 +29,9 @@ B02_BMW / 프로젝트명 : 도착알림이
 
 활용/참고 정보 :
 T맵 API 가이드 : https://tmapapi.sktelecom.com/main.html#android/sample/androidSample.sample1
+
 T맵 포럼 : https://openapi.sk.com/qnaCommunity/list
+
 알람 : https://www.youtube.com/watch?v=r5nCjplm7sw
 
 개발/배포 환경 :
